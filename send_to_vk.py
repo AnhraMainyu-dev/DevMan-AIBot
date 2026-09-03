@@ -21,7 +21,10 @@ def main():
     for event in longpoll.listen():
         if event.type == VkEventType.MESSAGE_NEW and event.to_me:
             answer = detect_intent_text(dialogflow_project_id, str(event.user_id), event.text, language_code='ru')
-            send_to_vk(event, vk_api, answer.fulfillment_text)
+            if answer.intent.is_fallback:
+                continue
+            else:
+                send_to_vk(event, vk_api, answer.fulfillment_text)
 
 if __name__ == "__main__":
     main()
