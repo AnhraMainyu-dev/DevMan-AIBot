@@ -24,8 +24,8 @@ class TgLogsHandler(logging.Handler):
 
 def setup_logger(start_text):
     handler = TgLogsHandler()
-    handler.setLevel(logging.INFO)
+    handler.setLevel(logging.WARNING)
     handler.setFormatter(logging.Formatter("%(levelname)s %(name)s\n%(message)s"))
     logging.getLogger().setLevel(logging.INFO)
     logging.getLogger().addHandler(handler)
-    logger.info(start_text)
+    logger.warning(start_text)
