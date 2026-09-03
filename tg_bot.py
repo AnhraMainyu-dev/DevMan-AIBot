@@ -1,15 +1,26 @@
+import logging
+
 from decouple import config
 from telegram.ext import Application, CommandHandler, MessageHandler, filters
 
 from tg_handlers import reply, start
+from tg_logger import setup_logger
+
+logger = logging.getLogger(__name__)
 
 
 def main():
+    setup_logger("ТГ-бот запущен")
+
     tg_bot_token = config("TELEGRAM_BOT_TOKEN")
     app = Application.builder().token(tg_bot_token).build()
     app.add_handler(CommandHandler("start", start))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, reply))
-    app.run_polling()
+
+    try:
+        app.run_polling()
+    except Exception:
+        logger.exception("Ошибка в ТГ-боте")
 
 
 if __name__ == "__main__":
