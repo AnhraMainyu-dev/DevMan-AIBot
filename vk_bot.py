@@ -35,7 +35,7 @@ def main():
                 if event.type == VkEventType.MESSAGE_NEW and event.to_me:
                     answer = detect_intent_text(
                         dialogflow_project_id,
-                        str(event.user_id),
+                        str(event.peer_id),
                         event.text,
                         language_code="ru",
                     )

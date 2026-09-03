@@ -36,7 +36,7 @@ def create_intent(
 def main():
     dialogflow_project_id = config("DIALOGFLOW_PROJECT_ID")
 
-    with open("learning_dicts/questions.json", "r", encoding="utf-8") as f:
+    with open("questions.json", "r", encoding="utf-8") as f:
         questions = json.load(f)
 
     for topic, phrases in questions.items():
