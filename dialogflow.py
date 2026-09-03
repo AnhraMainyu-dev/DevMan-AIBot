@@ -1,18 +1,19 @@
-from decouple import config
-from google.cloud import dialogflow
 import os
 
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = config('GOOGLE_APPLICATION_CREDENTIALS')
+from decouple import config
+from google.cloud import dialogflow
+
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = config("GOOGLE_APPLICATION_CREDENTIALS")
+
 
 def detect_intent_text(project_id, session_id, text, language_code):
     session_client = dialogflow.SessionsClient()
     session = session_client.session_path(project_id, session_id)
 
-
     text_input = dialogflow.TextInput(text=text, language_code=language_code)
     query_input = dialogflow.QueryInput(text=text_input)
 
     response = session_client.detect_intent(
-        request={'session': session, 'query_input': query_input}
+        request={"session": session, "query_input": query_input}
     )
     return response.query_result

@@ -1,12 +1,15 @@
 import json
 import os
+
 from decouple import config
 from google.cloud import dialogflow
 
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = config('GOOGLE_APPLICATION_CREDENTIALS')
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = config("GOOGLE_APPLICATION_CREDENTIALS")
 
 
-def create_intent(project_id, display_name, training_phrases_parts, message_texts, language_code='ru'):
+def create_intent(
+    project_id, display_name, training_phrases_parts, message_texts, language_code="ru"
+):
 
     intents_client = dialogflow.IntentsClient()
 

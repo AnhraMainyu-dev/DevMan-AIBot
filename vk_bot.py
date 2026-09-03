@@ -1,30 +1,40 @@
-from dialogflow import detect_intent_text
-from decouple import config
-import vk_api as vk
-from vk_api.longpoll import VkLongPoll, VkEventType
 import random
+
+import vk_api as vk
+from decouple import config
+from vk_api.longpoll import VkEventType, VkLongPoll
+
+from dialogflow import detect_intent_text
+
 
 def send_to_vk(event, vk_api, message):
     vk_api.messages.send(
-        user_id=event.user_id,
-        message=message,
-        random_id=random.randint(1,1000)
+        user_id=event.user_id, message=message, random_id=random.randint(1, 1000)
     )
 
 
 def main():
     dialogflow_project_id = config("DIALOGFLOW_PROJECT_ID")
-    vk_token = config('VK_API')
+    vk_token = config("VK_API")
+
     vk_session = vk.VkApi(token=vk_token)
     vk_api = vk_session.get_api()
+
     longpoll = VkLongPoll(vk_session)
+
     for event in longpoll.listen():
         if event.type == VkEventType.MESSAGE_NEW and event.to_me:
-            answer = detect_intent_text(dialogflow_project_id, str(event.user_id), event.text, language_code='ru')
+            answer = detect_intent_text(
+                dialogflow_project_id,
+                str(event.user_id),
+                event.text,
+                language_code="ru",
+            )
             if answer.intent.is_fallback:
                 continue
             else:
                 send_to_vk(event, vk_api, answer.fulfillment_text)
+
 
 if __name__ == "__main__":
     main()
