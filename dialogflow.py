@@ -1,7 +1,8 @@
 from decouple import config
 from google.cloud import dialogflow
+import os
 
-GOOGLE_APPLICATION_CREDENTIALS=config("GOOGLE_APPLICATION_CREDENTIALS")
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = config('GOOGLE_APPLICATION_CREDENTIALS')
 
 def detect_intent_text(project_id, session_id, text, language_code):
     session_client = dialogflow.SessionsClient()
