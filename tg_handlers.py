@@ -1,10 +1,7 @@
-from decouple import config
 from telegram import Update
 from telegram.ext import CallbackContext
 
 from dialogflow import detect_intent_text
-
-DIALOGFLOW_PROJECT_ID = config("DIALOGFLOW_PROJECT_ID")
 
 
 async def start(update: Update, context: CallbackContext):
@@ -14,7 +11,8 @@ async def start(update: Update, context: CallbackContext):
 async def reply(update: Update, context: CallbackContext):
     text = update.message.text.strip()
     answer = detect_intent_text(
-        DIALOGFLOW_PROJECT_ID,
+        context.bot_data["google_key"],
+        context.bot_data["dialogflow_id"],
         str(update.message.from_user.id),
         text,
         language_code="ru",

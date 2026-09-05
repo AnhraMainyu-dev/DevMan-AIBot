@@ -1,12 +1,10 @@
 import os
 
-from decouple import config
 from google.cloud import dialogflow
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = config("GOOGLE_APPLICATION_CREDENTIALS")
 
-
-def detect_intent_text(project_id, session_id, text, language_code):
+def detect_intent_text(google_key, project_id, session_id, text, language_code):
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = google_key
     session_client = dialogflow.SessionsClient()
     session = session_client.session_path(project_id, session_id)
 

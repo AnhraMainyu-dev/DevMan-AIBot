@@ -10,10 +10,12 @@ logger = logging.getLogger(__name__)
 
 
 def main():
-    setup_logger("ТГ-бот запущен")
+    setup_logger(config("TG_BOT_TOKEN"), config("TG_USER_ID"), "ТГ-бот запущен")
 
     tg_bot_token = config("TELEGRAM_BOT_TOKEN")
     app = Application.builder().token(tg_bot_token).build()
+    app.bot_data["google_key"] = config("GOOGLE_APPLICATION_CREDENTIALS")
+    app.bot_data["dialogflow_id"] = config("DIALOGFLOW_PROJECT_ID")
     app.add_handler(CommandHandler("start", start))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, reply))
 
