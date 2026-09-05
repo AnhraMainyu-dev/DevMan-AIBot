@@ -39,7 +39,7 @@ def main():
     )
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("db_path", default="question.json")
+    parser.add_argument("--db_path", default="question.json")
     args = parser.parse_args()
     db_path = args.db_path
 
