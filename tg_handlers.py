@@ -13,7 +13,7 @@ async def reply(update: Update, context: CallbackContext):
     answer = detect_intent_text(
         context.bot_data["google_key"],
         context.bot_data["dialogflow_id"],
-        str(update.message.from_user.id),
+        f"tg-{update.message.chat_id}",
         text,
         language_code="ru",
     )

@@ -33,15 +33,19 @@ def main():
 
             for event in longpoll.listen():
                 if event.type == VkEventType.MESSAGE_NEW and event.to_me:
-                    answer = detect_intent_text(
-                        google_key,
-                        dialogflow_project_id,
-                        str(event.peer_id),
-                        event.text,
-                        language_code="ru",
-                    )
-                    if not answer.intent.is_fallback:
-                        send_to_vk(event, vk_api, answer.fulfillment_text)
+                    continue
+
+                answer = detect_intent_text(
+                    google_key,
+                    dialogflow_project_id,
+                    f"vk-{event.peer_id}",
+                    event.text,
+                    language_code="ru",
+                )
+                if answer.intent.is_fallback:
+                        continue
+
+                send_to_vk(event, vk_api, answer.fulfillment_text)
         except Exception:
             logger.exception("Ошибка в ВК-боте")
             time.sleep(10)
